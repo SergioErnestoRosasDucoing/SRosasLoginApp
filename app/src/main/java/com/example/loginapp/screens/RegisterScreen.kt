@@ -34,80 +34,72 @@ import coil3.compose.AsyncImage
 import com.example.loginapp.R
 import com.example.loginapp.components.ButtonBlack
 import com.example.loginapp.components.TextFieldComponent
+import com.example.loginapp.components.TopHeader
 import com.example.loginapp.ui.theme.Background
 import com.example.loginapp.ui.theme.LoginAppTheme
+import com.example.loginapp.ui.theme.LoginScreenRoute
 import com.example.loginapp.ui.theme.RegisterScreenRoute
 
 @Composable
 fun RegisterScreen(navController: NavController) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirm by remember { mutableStateOf("") }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    )
-    {
+    Box(Modifier.fillMaxSize()) {
+
         AsyncImage(
             model = "https://i.pinimg.com/736x/c0/d8/54/c0d8541f82efc52aed82c3208e349c93.jpg",
-            contentDescription = "Background",
+            contentDescription = null,
             placeholder = painterResource(R.drawable.ic_launcher_background),
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
-        Column (
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Row (
+        Column(Modifier.fillMaxSize()) {
+
+            TopHeader(
+                title = "Sign Up",
+                onBack = {
+                    navController.navigate(LoginScreenRoute) {
+                        launchSingleTop = true
+                        restoreState = true
+                        popUpTo<LoginScreenRoute> { inclusive = false }
+                    }
+                },
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .height(110.dp)
-                        .width(110.dp)
-                        .clip(RoundedCornerShape(
-                            topStart = 25.dp,
-                            bottomStart = 25.dp,
-                            bottomEnd = 25.dp
-                        ))
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center
-                ){
-                    Box(
-                        modifier = Modifier
-                            .size(55.dp)
-                            .clip(RoundedCornerShape(
-                                topStart = 27.5.dp,
-                                topEnd = 27.5.dp,
-                                bottomEnd = 27.5.dp
+                    .fillMaxWidth()
+            )
 
-                            ))
-                            .background(Color.Black)
-                    )
-
-                }
-            }
-            Column (
+            Column(
                 modifier = Modifier
-                    .weight(2f)
+                    .weight(4f)
                     .fillMaxSize()
                     .clip(RoundedCornerShape(topStart = 90.dp))
                     .background(Background),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
+                
             ) {
                 Text(
-                    text = "Login",
-                    fontSize = 36.sp,
-                    color = Color.Black,
+                    text = "",
                     modifier = Modifier
-                        .padding(top = 50.dp)
+                        .padding(top = 10.dp)
+                )
+
+                TextFieldComponent(
+                    label = "First name",
+                    value = firstName,
+                    onValueChange = { firstName = it }
+                )
+
+                TextFieldComponent(
+                    label = "Last name",
+                    value = lastName,
+                    onValueChange = { lastName = it }
                 )
 
                 TextFieldComponent(
@@ -123,29 +115,43 @@ fun RegisterScreen(navController: NavController) {
                     isPassword = true
                 )
 
-                ButtonBlack(
-                    text = "Login",
-                    onClick = {  },
-                    modifier = Modifier.padding(bottom = 10.dp)
+                TextFieldComponent(
+                    label = "Confirm password",
+                    value = confirm,
+                    onValueChange = { confirm = it },
+                    isPassword = true
                 )
 
-                TextButton(onClick = { navController.navigate(RegisterScreenRoute) }) {
+
+
+                ButtonBlack(
+                    text = "Sign Up",
+                    onClick = {  },
+                    modifier = Modifier
+                        .height(50.dp)
+                        .fillMaxWidth()
+                )
+
+                TextButton(onClick = {
+                    navController.navigate(LoginScreenRoute) {
+                        launchSingleTop = true
+                        restoreState = true
+                        popUpTo<LoginScreenRoute> {
+                            inclusive = false
+                        }
+                    }
+                    }) {
                     Text(
-                        text ="Don’t have an account? Sign Up",
+                        text = "Already have any account? Sign In",
                         color = Color.Black,
-                        modifier = Modifier
-                            .padding(bottom = 40.dp)
+                        modifier = Modifier.padding(vertical = 40.dp)
                     )
                 }
-
-
-
-
             }
-
         }
     }
 }
+
 
 @Preview(
     showBackground = true,

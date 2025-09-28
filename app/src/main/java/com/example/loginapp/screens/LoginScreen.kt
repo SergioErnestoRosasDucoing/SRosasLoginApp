@@ -44,6 +44,7 @@ import com.example.loginapp.components.ButtonBlack
 import com.example.loginapp.components.TextFieldComponent
 import com.example.loginapp.ui.theme.Background
 import com.example.loginapp.ui.theme.LoginAppTheme
+import com.example.loginapp.ui.theme.LoginScreenRoute
 import com.example.loginapp.ui.theme.RegisterScreenRoute
 
 
@@ -139,7 +140,17 @@ fun LoginScreen(navController: NavController) {
                     modifier = Modifier.padding(bottom = 10.dp)
                 )
 
-                TextButton(onClick = { navController.navigate(RegisterScreenRoute) }) {
+                TextButton(onClick = {
+                    navController.navigate(RegisterScreenRoute){
+                        launchSingleTop = true
+                        restoreState = true
+                        popUpTo<LoginScreenRoute> {
+                            saveState = true
+                            inclusive = false
+                        }
+                    }
+                }) {
+
                     Text(
                         text ="Don’t have an account? Sign Up",
                         color = Color.Black,
